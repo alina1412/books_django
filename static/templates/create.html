@@ -1,0 +1,18 @@
+{% extends 'templates/base.html' %}
+
+{% block body %}
+
+
+<div class="container">
+	
+<form action="{% url 'pages:pages_create' %}" method="post">
+	 {% csrf_token %}
+	 <h3>create</h3>
+	 {{form.as_p}}
+	 <button type="submit"> Create </button>
+</form>
+
+</div>
+{% endblock %}
+
+    

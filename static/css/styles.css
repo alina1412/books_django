@@ -1,0 +1,72 @@
+body,
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+/* ================================================== */
+/* ============= SIDEBAR ============================ */
+/* ================================================== */
+/* 
+width: 140pt
+*/
+
+.sidebar {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    /* background-color: rgba(255, 0, 0, 0.3); */
+    width: 140pt;
+    height: 100%;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    background-color: #44a;
+    padding: 2pt 8pt;
+    text-align: right;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #77c;
+}
+
+.sidebar nav ul li a::after {
+    content: " >";
+}
+
+.sidebar .message-block {
+    width: 140pt;
+    word-wrap: break-word;
+    background-color: rgba(215, 65, 65, 0.638);
+}
+
+/* .error1 {
+    background-color: rgba(215, 65, 65, 0.638);
+    color: rgb(0, 0, 0);
+} */
+
+/* ================================================== */
+/* ============= CONTENT ============================ */
+/* ================================================== */
+
+.wrapper>.content {
+    /* background-color: #cff; */
+    margin-left: 140pt;
+    overflow: auto;
+    padding-left: 10 pt;
+}
+
+.container {
+    padding-left: 20px;
+}
+

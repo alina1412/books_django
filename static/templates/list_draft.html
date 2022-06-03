@@ -1,0 +1,20 @@
+{% extends 'templates/base.html' %}
+
+{% block body %}
+
+<div class="container">
+    
+        <h3>{{list_head}}</h3>
+        <br>
+        {% if not item_list %}
+        <p> Empty </p>
+        {% else %}
+
+        {% for item in item_list %}
+        <p> {{item.author}} - {{item.title}} - {{item.tags}}</p>
+        {% endfor %}
+
+        {% endif %}
+</div>
+
+{% endblock %}

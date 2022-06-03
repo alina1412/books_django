@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css" />
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/ico"/>
+
+    <title>Site</title> 
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <nav>
+                {% include 'templates/nav-bar.html' %}
+            </nav>
+            <div class="message-block">
+                {% block k %}
+                {% include 'templates/messages.html' %}
+                {% endblock %} 
+                <!-- <ul class="error1">
+                    <li class="message"> Error Error Error Error Error Error Error Error Error Error Error
+                         ErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorError
+                    </li>
+                </ul> -->
+            </div>
+        </div>
+        <div class="content">
+            {% block body %}
+            {% endblock %} 
+
+        </div>
+    </div>
+
+
+    
+</body>
+</html>
