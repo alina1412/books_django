@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn books_django.wsgi
+web: gunicorn books.wsgi
