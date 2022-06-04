@@ -47,8 +47,16 @@ def table_books_view(request):
     id = request.user.id
     item_list = Books.objects.filter(reader_id=id)
 
-    return render(request, f'{BASE_DIR}/static/templates/list_draft.html', 
-                  {'list_head': list_head, 'item_list': item_list})
+    if request.method == 'POST':
+        for book in item_list:
+            x = request.POST.get(str(book.id), 'off')
+            # print(x)
+            if x == 'on':
+                book.delete()
+        return redirect('shelves:table_books')
+    else:
+        return render(request, f'{BASE_DIR}/static/templates/list_draft.html', 
+                    {'list_head': list_head, 'item_list': item_list})
     
 
 @login_required(login_url='users:login_user')

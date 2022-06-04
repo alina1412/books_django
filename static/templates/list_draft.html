@@ -10,10 +10,26 @@
         <p> Empty </p>
         {% else %}
 
-        {% for item in item_list %}
-        <p> {{item.author}} - {{item.title}} - {{item.tags}}</p>
-        {% endfor %}
-
+        <form action="{% url 'shelves:table_books' %}" method="post">
+                {% csrf_token %}
+                <table>
+                        <tr>
+                        <th>author</th>
+                        <th>title</th>
+                        <th>tags</th>
+                        <th>to delete</th>
+                        </tr>
+                        {% for item in item_list %}
+                        <tr>
+                        <td>{{item.author}}</td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.tags}}</td>
+                        <td><input type="checkbox" name={{item.id}}></td>
+                        </tr>
+                        {% endfor %}
+                </table>
+                <button type="submit"> delete </button>
+        </form>
         {% endif %}
 </div>
 
