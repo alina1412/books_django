@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def home_view(request):
-    logger.info("home_view")
+    # logger.info("home_view")
     return render(request, f'{BASE_DIR}/static/templates/home.html', {})
 
 def b_view(request):
