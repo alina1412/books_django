@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+from urllib.parse import urlparse
 import django_heroku
 
 
@@ -81,6 +82,22 @@ WSGI_APPLICATION = 'books.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
+def parse_db_url():
+    db_url = os.environ.get("db_url")
+    db_url_parsed = urlparse(db_url)
+    database = db_url_parsed.path[1:]
+    credentals, address = db_url_parsed.netloc.split("@")
+    uname, passwd = credentals.split(":")
+    host, port = address.split(":")
+    d = {"dbname": database, 
+         "USER": uname, "PASSWORD": passwd, 
+         "HOST": host, "PORT": port, 
+         "ENGINE": 'django.db.backends.postgresql_psycopg2'}
+    return d
+
+
+
 if DEBUG:
     DATABASES = {
         'default': {
@@ -90,16 +107,17 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'dcrg889qoc8g02',
-            'USER': 'usqkcntegehlpe',
-            'PASSWORD': POSTGRE_PASS,
-            'HOST': 'ec2-176-34-211-0.eu-west-1.compute.amazonaws.com',
-            'PORT': '5432'
-
-        }
+        'default': parse_db_url()        
+        # {
+        #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #     'NAME': 'dcrg889qoc8g02',
+        #     'USER': 'usqkcntegehlpe',
+        #     'PASSWORD': POSTGRE_PASS,
+        #     'HOST': 'ec2-176-34-211-0.eu-west-1.compute.amazonaws.com',
+        #     'PORT': '5432'
+        # }
     }
+
 
 LOGGING = {
     'version': 1,
