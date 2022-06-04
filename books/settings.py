@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'books.wsgi.application'
 
 
 def parse_db_url():
-    db_url = os.environ.get("db_url")
+    db_url = os.environ.get("DATABASE_URL")
     db_url_parsed = urlparse(db_url)
     database = db_url_parsed.path[1:]
     credentals, address = db_url_parsed.netloc.split("@")
