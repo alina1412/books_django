@@ -28,7 +28,7 @@ POSTGRE_PASS = os.environ.get("POSTGRE_PASS")
 # print(SECRET_KEY)
 
 
-DEBUG = False       # IN DEBUG SQLITE !!!!!!!!!!!!
+DEBUG = os.environ.get("IS_DEBUG") == 'True'      # IN DEBUG SQLITE !!!!!!!!!!!!
 
 ALLOWED_HOSTS = ['books-django-app.herokuapp.com', '127.0.0.1']
 
