@@ -15,12 +15,19 @@
     <div class="wrapper">
         <div class="sidebar">
             <nav>
+                {% block suggest-to-log %}
+                {% endblock suggest-to-log %}
+                
                 {% include 'templates/nav-bar.html' %}
+
+                {% block logout %}
+                {% include 'templates/logout.html' %}
+                {% endblock logout %}             
             </nav>
             <div class="message-block">
                 {% block k %}
                 {% include 'templates/messages.html' %}
-                {% endblock %} 
+                {% endblock k %} 
                 <!-- <ul class="error1">
                     <li class="message"> Error Error Error Error Error Error Error Error Error Error Error
                          ErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorError

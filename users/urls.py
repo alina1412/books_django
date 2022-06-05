@@ -12,6 +12,5 @@ urlpatterns = [
     path('login_user/', views.login_user_view, name='login_user'),
     path('register/', views.register_user, name='register'),
     path('log_out/', views.logout_view, name='goodbye'),
-    path('b_view/', views.b_view, name='b_view'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

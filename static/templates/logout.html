@@ -1,0 +1,16 @@
+
+<ul>
+    <li><a href="{% url 'users:goodbye' %}" onclick="return myFunction();">logout</a></li>
+</ul>
+
+<script>
+    function myFunction() {
+      if (confirm("Log out?")) {
+          return true;
+        // print("You pressed OK!");
+      } else {
+        // print("You pressed Cancel!");
+        return false;
+      }
+    }
+</script>

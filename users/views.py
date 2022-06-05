@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
  
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -19,15 +18,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def home_view(request):
-    # logger.info("home_view")
-    return render(request, f'{BASE_DIR}/static/templates/home.html', {})
+    context = {"auth": False}
+    if request.user.is_authenticated:
+        context = {"auth": True}
+    return render(request, f'{BASE_DIR}/static/templates/home.html', context)
 
-def b_view(request):
-    return HttpResponse("b_view")
-
-# @login_required(login_url='users:login_user')
-def a_view(request):
-    return HttpResponse("Hello World")
 
 def logout_view(request):
     logout(request)
