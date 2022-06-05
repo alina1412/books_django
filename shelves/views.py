@@ -1,3 +1,5 @@
+import os
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # from django.http import HttpResponse, HttpResponseRedirect
@@ -7,6 +9,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 from pathlib import Path
+
+import mimetypes
+# from django.conf import settings
 
 from .forms import BooksAddViewForm, SearchBookForm
 from .models import Reader, Books
@@ -48,6 +53,9 @@ def table_books_view(request):
     item_list = Books.objects.filter(reader_id=id)
 
     if request.method == 'POST':
+        if request.POST.get('download', None):
+            return download_file(request, item_list)
+
         for book in item_list:
             x = request.POST.get(str(book.id), 'off')
             # print(x)
@@ -81,3 +89,27 @@ def books_add_view(request):
 
     return render(request, f'{BASE_DIR}/static/templates/books_add.html',
                   {'form': BooksAddViewForm()})
+
+
+def download_file(request, item_list):
+    filename = 'download.txt'
+    dirname = BASE_DIR / f'static/download/'
+    try:
+        os.stat(dirname)
+    except:
+        os.mkdir(dirname)
+
+    fl_path = dirname / f'{filename}'
+    # fl_path = f'{BASE_DIR}/static/img/{filename}'
+    # print(fl_path)
+    with open(fl_path, 'w') as fl:
+        for obj in item_list:
+            line = " - ".join([obj.author, obj.title, obj.tags])
+            fl.write(line)
+            fl.write(";\n")
+
+    with open(fl_path, 'rb') as fl:
+        mime_type, _ = mimetypes.guess_type(fl_path)
+        response = HttpResponse(fl, content_type=mime_type)
+        response['Content-Disposition'] = f"attachment; filename={filename}"
+        return response
