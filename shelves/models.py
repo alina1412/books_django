@@ -1,13 +1,12 @@
 from django.db import models
 from django.db.models import Q
 
-
 class Reader(models.Model):
+    reader_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
-
 
 class Books(models.Model):
     reader = models.ForeignKey(
@@ -37,3 +36,21 @@ class Books(models.Model):
         
         item_list = set() | s1 | s2 | s3
         return item_list
+
+
+class FirstReaderCreation:
+
+    def create_reader(id, username):
+        print('started to create reader...')
+        reader_obj = Reader.objects.create(reader_id=id, name=username)
+
+        example_author = "example_author"
+        example_title = "example_title"
+        example_tags = "tag1, tag2"
+        for _ in range(2):
+            new_book = Books(author=example_author,
+                            title=example_title, 
+                            tags=example_tags,
+                            reader=reader_obj)
+            new_book.save()
+        print('created reader!')

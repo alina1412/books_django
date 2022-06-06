@@ -1,3 +1,9 @@
+import logging
+
+from users.models import UsersManageModel
+logger = logging.getLogger(__name__)
+
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.urls import reverse
  
@@ -6,15 +12,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from .forms import LoginForm, RegisterForm
-
-
-import logging
-logger = logging.getLogger(__name__)
-
-
-from pathlib import Path
+from shelves.models import FirstReaderCreation
+# from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = settings.BASE_DIR
+
 
 
 def home_view(request):
@@ -49,10 +52,17 @@ def login_user_view(request):
     return render(request, f'{BASE_DIR}/static/templates/login_user.html', {'form': LoginForm()})
 
 
+
+
+def shelves_user_creation(id, username):
+    FirstReaderCreation.create_reader(id, username)
+
+# from django.contrib.auth.forms import UserCreationForm 
+
 def register_user(request):
     if request.user.is_authenticated:
         logout(request)
-    # return HttpResponse("todo")
+   
     if request.method == 'POST':
         username = request.POST['username']
         password1 = request.POST['password1']
@@ -62,7 +72,9 @@ def register_user(request):
         form = RegisterForm(request.POST) # UserCreationForm(request.POST)
         if form.is_valid():
             print('valid')
-            form.save()
+            obj = form.save()
+            print(obj, obj.id)
+            shelves_user_creation(obj.id, username)
             messages.success(request, 'saved')
             return redirect('users:login_user')
         else:
@@ -72,11 +84,4 @@ def register_user(request):
         form = RegisterForm() # UserCreationForm()
     return render(request, 'templates/register.html', {'form': form}) 
     # return render(request, f'{BASE_DIR}/static/templates/register.html', {'form': form}) 
-
-
-
-
-
-
-
 

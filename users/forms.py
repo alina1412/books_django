@@ -24,4 +24,5 @@ class RegisterForm(UserCreationForm):
         label="password confirmation",
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         strip=False)
-
+    # error_messages = UserCreationForm.error_messages
+    # print(error_messages)
