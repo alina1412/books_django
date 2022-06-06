@@ -37,6 +37,8 @@ class Books(models.Model):
         item_list = set() | s1 | s2 | s3
         return item_list
 
+    class Meta:
+        verbose_name_plural = "Books"
 
 class FirstReaderCreation:
 
