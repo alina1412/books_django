@@ -50,10 +50,10 @@ width: 140pt
     background-color: rgba(215, 65, 65, 0.638);
 }
 
-/* .error1 {
+.error1 {
     background-color: rgba(215, 65, 65, 0.638);
     color: rgb(0, 0, 0);
-} */
+}
 
 /* ================================================== */
 /* ============= CONTENT ============================ */
@@ -71,10 +71,11 @@ width: 140pt
 }
 
 
-table {
+.output {
     background-color: #6633991c;
     margin-bottom: 1rem;
-    width: 400px;
+    /* width: 400px; */
+    width: 70%;
 }
 
 table th,
@@ -84,6 +85,17 @@ table td {
     text-align: justify;
 }
 
-tbody tr:nth-of-type(odd) {
+.output tbody tr:nth-of-type(odd) {
     background-color: rgb(191 196 205 / 30%)
+}
+
+/* .log_form {
+    width: 70%;
+} */
+
+.form_field {
+    border:1px solid rgb(72, 84, 134); 
+    border-radius:5px;
+    height:20px;
+    width:250px;
 }

@@ -80,6 +80,7 @@ def books_add_view(request):
             messages.success(request, 'book added')
             return redirect('shelves:books_add')
 
-    return render(request, f'{BASE_DIR}/static/templates/books_add.html',
+    return render(request, 
+                  BASE_DIR / 'static/templates/books_add.html',
                   {'form': BooksAddViewForm()})
 

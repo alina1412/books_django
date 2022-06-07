@@ -111,14 +111,6 @@ if DEBUG:
 else:
     DATABASES = {
         'default': parse_db_url()        
-        # {
-        #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #     'NAME': 'dcrg889qoc8g02',
-        #     'USER': 'usqkcntegehlpe',
-        #     'PASSWORD': POSTGRE_PASS,
-        #     'HOST': 'ec2-176-34-211-0.eu-west-1.compute.amazonaws.com',
-        #     'PORT': '5432'
-        # }
     }
 
 
@@ -194,7 +186,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static/templates/',
 # print('BASE_DIR', BASE_DIR, f'{BASE_DIR}/static/templates/')
 # TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'dbroutes/static/templates'),
 # os.path.join(BASE_DIR, 'users/templates/')]
-#  STATICFILES_DIRS = [    BASE_DIR / "static",     '/var/www/static/',]
 
 
 # Default primary key field type

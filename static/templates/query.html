@@ -5,9 +5,25 @@
 <div class="container">
     <form action="{% url 'shelves:book_search' %}" method="post">
         {% csrf_token %}
-        <h3>book_search</h3>
-        {{form.as_p}}
+        <h3>book's search</h3>
+        <!-- {{form.as_p}} -->
+        <table>
+            <tr>
+                <td>author</td>
+                <td>{{ form.author }}</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>{{ form.title }}</td>
+            </tr>
+            <tr>
+                <td>tags</td>
+                <td> {{ form.tags }}</td>
+            </tr>
+            
+        </table>
         <button type="submit"> submit </button>
+
     </form>
 </div>
 

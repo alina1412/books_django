@@ -12,7 +12,7 @@
 
         <form action="{% url 'shelves:table_books' %}" method="post">
                 {% csrf_token %}
-                <table>
+                <table class="output">
                         <tr>
                         <th>author</th>
                         <th>title</th>
@@ -27,11 +27,22 @@
                         <td><input type="checkbox" name={{item.id}}></td>
                         </tr>
                         {% endfor %}
+                        <tr>
+
+                                <td>
+               <input type="submit" name="download" value="download my list" >  </input>
+                              
+                                </td>        
+                                <td></td> 
+                                <td></td>                        
+                                <td>
+
+             <button type="submit" name="delete"> delete selected</button>
+                                   </td>
+                        </tr>
                 </table>
-                <button type="submit" name="delete"> delete selected</button>
                 <p></p>
-                <input type="submit" name="download" value="download my list" >  </input>
-        </form>
+                   </form>
         {% endif %}
 </div>
 

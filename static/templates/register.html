@@ -13,8 +13,37 @@
     <form action="{% url 'users:register' %}" method="post">
         {% csrf_token %}
         <h3>register</h3>
-        {{form.as_p}}
+        <!-- {{form.as_p}} -->
+        <!-- {{ form.as_table }} -->
+        <table>
+            <tr>
+                <td>username</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>{{ form.password1 }}</td>
+            </tr>
+            <tr>
+                <td>password confirmation</td>
+                <td> {{ form.password2 }}</td>
+            </tr>
+            
+        </table>
+        
         <button type="submit"> submit </button>
+        <br>
+        <div class="error1">
+        {{ form.non_field_errors }}
+        {{ form.username.errors }}
+        {{ form.password1.errors }}
+        {{ form.password2.errors }}
+        {{ form.username.help_text }}
+        {{ form.password1.help_text }}
+        {{ form.password2.help_text }}
+        </div>
+
+      
     </form>
 </div>
 
