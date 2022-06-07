@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import Q
 
 class Reader(models.Model):
-    reader_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -44,7 +43,7 @@ class FirstReaderCreation:
 
     def create_reader(id, username):
         print('started to create reader...')
-        reader_obj = Reader.objects.create(reader_id=id, name=username)
+        reader_obj = Reader.objects.create(pk=id, name=username)
 
         example_author = "example_author"
         example_title = "example_title"

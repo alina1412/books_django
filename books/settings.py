@@ -28,10 +28,13 @@ POSTGRE_PASS = os.environ.get("POSTGRE_PASS")
 # print(SECRET_KEY)
 
 
-DEBUG = os.environ.get("IS_DEBUG") == 'True'      # IN DEBUG SQLITE !!!!!!!!!!!!
+DEBUG = os.environ.get("IS_DEBUG") == 'True'
 
-ALLOWED_HOSTS = ['books-django-app.herokuapp.com', '127.0.0.1']
-
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['books-django-app.herokuapp.com']
+# print(DEBUG)
 
 # Application definition
 
@@ -63,7 +66,7 @@ ROOT_URLCONF = 'books.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [f'{BASE_DIR}/static'],
+        'DIRS': [BASE_DIR / 'static'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -197,4 +200,8 @@ STATICFILES_DIRS = [f'{BASE_DIR}/static/templates/', f'{BASE_DIR}/static/css/', 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_heroku.settings(locals())
+# print("2", DATABASES)
+if not DEBUG:
+    django_heroku.settings(locals())
+
+# print("3", DATABASES)
