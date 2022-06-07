@@ -177,11 +177,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Europe/Moscow'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -189,11 +186,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = f'/static/'
-STATIC_ROOT = f'{BASE_DIR}/static/'
-STATICFILES_DIRS = [f'{BASE_DIR}/static/templates/', f'{BASE_DIR}/static/css/', f'{BASE_DIR}/static/img/']     # os.path.join(BASE_DIR, '/static/')
+STATIC_ROOT = BASE_DIR / 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static/templates/',
+                    BASE_DIR / 'static/css/',
+                    BASE_DIR / 'static/img/']     
+                    # os.path.join(BASE_DIR, '/static/')
 # print('BASE_DIR', BASE_DIR, f'{BASE_DIR}/static/templates/')
-# TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'dbroutes/static/templates'), os.path.join(BASE_DIR, 'users/templates/')]
+# TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'dbroutes/static/templates'),
+# os.path.join(BASE_DIR, 'users/templates/')]
 #  STATICFILES_DIRS = [    BASE_DIR / "static",     '/var/www/static/',]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
