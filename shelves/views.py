@@ -1,4 +1,3 @@
-import os
 import mimetypes
 
 import logging
@@ -13,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import BooksAddViewForm, SearchBookForm
 from .models import Reader, Books
-
+from .download import AttachFile
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +42,10 @@ def table_books_view(request):
 
     if request.method == 'POST':
         if request.POST.get('download', None):
-            return download_file(request, item_list)
+            AF = AttachFile(item_list)
+            resp_obj = AF.attach_file()
+            
+            return resp_obj
         else:
             for book in item_list:
                 x = request.POST.get(str(book.id), 'off')
@@ -70,7 +72,7 @@ def books_add_view(request):
         if not title and not author:
             ...
         else:
-            reader_obj = Reader.objects.get(reader_id=request.user.id)
+            reader_obj = Reader.objects.get(id=request.user.id)
 
             new_book = Books(title=title, author=author, tags=tags,
                         reader=reader_obj)
@@ -81,28 +83,3 @@ def books_add_view(request):
     return render(request, f'{BASE_DIR}/static/templates/books_add.html',
                   {'form': BooksAddViewForm()})
 
-
-def download_file(request, item_list):
-    filename = 'download.txt'
-    dirname = BASE_DIR / f'static/download/'
-    try:
-        os.stat(dirname)
-    except:
-        os.mkdir(dirname)
-
-    fl_path = dirname / f'{filename}'
-    # fl_path = f'{BASE_DIR}/static/img/{filename}'
-    # print(fl_path)
-    with open(fl_path, 'w') as fl:
-        for obj in item_list:
-            line = " - ".join([obj.author, obj.title, obj.tags])
-            fl.write(line)
-            fl.write(";\n")
-
-    with open(fl_path, 'rb') as fl:
-        content_type = 'text/plain'
-        # content_type, _ = mimetypes.guess_type(fl_path)
-        # print(content_type)
-        response = HttpResponse(fl, content_type=content_type)
-        response['Content-Disposition'] = f"attachment; filename={filename}"
-        return response
