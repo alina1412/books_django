@@ -1,11 +1,13 @@
 from django.db import models
 from django.db.models import Q
 
+
 class Reader(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
+
 
 class Books(models.Model):
     reader = models.ForeignKey(
@@ -21,6 +23,7 @@ class Books(models.Model):
 
     class Meta:
         ordering = ['author']
+        verbose_name_plural = "Books"
 
     def search_query(id, kwargs): # -> item_list
         s1 = set(Books.objects.filter(
@@ -36,22 +39,21 @@ class Books(models.Model):
         item_list = set() | s1 | s2 | s3
         return item_list
 
-    class Meta:
-        verbose_name_plural = "Books"
 
 class FirstReaderCreation:
-
     def create_reader(id, username):
         print('started to create reader...')
         reader_obj = Reader.objects.create(pk=id, name=username)
-
-        example_author = "example_author"
-        example_title = "example_title"
-        example_tags = "tag1, tag2"
-        for _ in range(2):
-            new_book = Books(author=example_author,
-                            title=example_title, 
-                            tags=example_tags,
-                            reader=reader_obj)
-            new_book.save()
+        FirstReaderCreation.create_example_books(reader_obj)
         print('created reader!')
+
+    def create_example_books(reader_obj):
+        for i in range(2):
+            example_author = f"example_author_{i}"
+            example_title = f"example_title_{i}"
+            example_tags = "tag1, tag2"
+            new_book = Books(author=example_author,
+                             title=example_title, 
+                             tags=example_tags,
+                             reader=reader_obj)
+            new_book.save()
