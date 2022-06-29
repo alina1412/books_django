@@ -1,14 +1,13 @@
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse    # , HttpResponseRedirect
+from django.shortcuts import render, redirect
+
 import mimetypes
 
 import logging
 logger = logging.getLogger(__name__)
-
-from django.conf import settings
-from django.contrib import messages
-from django.http import HttpResponse    # , HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-
 
 from .forms import BooksAddViewForm, SearchBookForm
 from .models import Reader, Books
@@ -63,7 +62,7 @@ def table_books_view(request):
 @login_required(login_url='users:login_user')
 def books_add_view(request):
     # print("request.user.id", request.user.id, request.user.username)
-    logger.debug(f"user {request.user.id} {request.user.username}")
+    logger.debug(f"books_add_view, user {request.user.id} {request.user.username}")
 
     if request.method == 'POST':
         author = request.POST['author']
