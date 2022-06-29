@@ -7,3 +7,5 @@ debug.log
 db.sqlite3
 **/download/
 private_conf.py
+.coverage
+htmlcov
