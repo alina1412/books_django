@@ -1,140 +1,117 @@
-from django.test import TestCase, Client
+from http import server
+import imp
+from lib2to3.pgen2 import driver
+from lib2to3.pgen2.token import OP
+from pathlib import WindowsPath
+from pyexpat import model
+from django.test import SimpleTestCase, TestCase, Client
 from django import urls
 import pytest
 from django.contrib.messages import get_messages
 
-import logging
-logger = logging.getLogger(__name__)
-
+# import logging
+# logger = logging.getLogger(__name__)
 
 from .views import *
 from .models import UsersManageModel
 from shelves.models import FirstReaderCreation, Books, Reader
 
 
-
+# pytest-django has a build-in fixture client
 @pytest.fixture()
 def auto_login_user(db, client):
+    print()
+    print("fixture\n")
     user = UsersManageModel.objects.create(username="user1", password="qwerty12542")
     client.force_login(user)
-    yield client, user
-  
+    return client, user
+    
+   
+# @pytest.mark.django_db
+# def test_user(auto_login_user):
+#     client, user = auto_login_user
+#     count = UsersManageModel.objects.all().count()
+#     assert count == 1
+
+# @pytest.mark.parametrize(
+#         'param', [
+#             '/shelves/books_add/',
+#             '/shelves/table_books/'
+#         ]
+#     )
+# def test_unauthorized_request(param, client):
+#    response = client.get(param, follow=True)
+#    assert b"login" in response.content
    
 
-@pytest.mark.django_db
-def test_user(auto_login_user):
-    client, user = auto_login_user
-    count = UsersManageModel.objects.all().count()
-    assert count == 1
-
-
-@pytest.mark.django_db
-def test_reader(auto_login_user):
-    client, user = auto_login_user 
-    FirstReaderCreation.create_reader(user.id, user.username)
-    count = Reader.objects.all().count()
-    assert count == 1
-    count = Books.objects.all().count()
-    assert count == 2
-
-
-@pytest.mark.django_db
-def test_books_add_url(auto_login_user):
-    client, user = auto_login_user
-    response = client.get('/shelves/books_add/')
-    assert response.status_code == 200
-    assert b'add books' in response.content
-
-    FirstReaderCreation.create_reader(user.id, user.username)
-    book = Books(reader_id = user.id, author="AA", title="BB")
-    book.save()
-    count = Books.objects.all().count()
-    assert count == 3
-
-    # logger.debug(str(response.content))
-
-    payload = dict(author = "ABC",
-                        title = "adfg",
-                        tags = ""
-                    )
-    response = client.post('/shelves/books_add/', payload)
-    # assert response.status_code == 302
-    count = Books.objects.all().count()
-    assert count == 4
+# @pytest.mark.django_db
+# def test_books_list(auto_login_user):
+#     client, user = auto_login_user
+#     FirstReaderCreation.create_reader(user.id, user.username)
+#     response = client.get('/shelves/table_books/')
+#     assert response.status_code == 200
+#     assert b'table of books' in response.content
+#     assert b'example_author_' in response.content
 
 
 
+# @pytest.mark.parametrize(
+#    'param, template_name', [
+#       ('shelves:books_add', 'books_add.html'),
+#       ('shelves:table_books', 'list_draft.html'),
+#       ('shelves:book_search', 'query.html'),
+#    ]
+# )
+# def test_registered_templates(param, template_name, client, auto_login_user):
+#     client, user = auto_login_user
+#     response = client.get(reverse(param))
+#     assert response.templates
+#     lst = list([t.name for t in response.templates])
+#     print(lst)
+#     lst = [x.__str__() if isinstance(x, WindowsPath) else x for x in lst]
+#     assert [template_name in x for x in lst]
 
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-   'author, title, status_code', [
-       ("", 'only_title', 400),
-       ('only_author', "", 400),
-       ('', '', 400),
-       ('both', 'both', 200),
-   ]
-)
-def test_books_add(
-    author, title, status_code, 
-    auto_login_user
-     ):
 
-    data = {
-       'author': author,
-       'title': title,
-       'tags': ""
-    }
+# @pytest.mark.parametrize(
+#    'param, template_name', [
+#       ('users:login_user', 'login_user.html'),
+#       ('users:register', 'register.html'),
+#    ]
+# )
+# def test_not_registered_templates(param, template_name, client):
+#     # client, user = auto_login_user
+#     response = client.get(reverse(param))
+#     assert response.templates
+#     lst = list([t.name for t in response.templates])
+#     lst = [x.__str__() if isinstance(x, WindowsPath) else x for x in lst]
+#     assert [template_name in x for x in lst]
+
     
-    client, user = auto_login_user
-    FirstReaderCreation.create_reader(user.id, user.username)
-    response = client.post('/shelves/books_add/', data=data, follow=True)
-    if status_code == 400: list(get_messages(response.wsgi_request)) == []
-    if status_code == 200: 
-        messages = list(get_messages(response.wsgi_request))
-        assert len(messages) >= 1
-        assert str(messages[0]) == 'book added'
-
-
-@pytest.fixture
-def api_client():
-   from rest_framework.test import APIClient
-   return APIClient()
-
-
-@pytest.mark.parametrize(
-   'param', [
-      '/shelves/books_add/',
-      '/shelves/table_books/'
-   ]
-)
-def test_unauthorized_request(param, api_client):
-   response = api_client.get(param, follow=True)
-   assert b"login" in response.content
-   
-
-
-
-@pytest.mark.django_db
-def test_books_list(auto_login_user):
-    client, user = auto_login_user
-    FirstReaderCreation.create_reader(user.id, user.username)
-    response = client.get('/shelves/table_books/')
-    assert response.status_code == 200
-    assert b'table of books' in response.content
-    assert b'example_author_' in response.content
-
-# 
-# assertTemplateUsed(response, 'list_draft.html')
-    
-
-
-
 
 
 
     
 
 
+#     # response = client.get('/shelves/table_books/')
+
+#     FirstReaderCreation.create_reader(user.id, user.username)
+#     book = Books(reader_id=user.id, author="AA", title="BB")
+#     book.save()
+#     book = Books(reader_id=user.id, author="CC", title="DD")
+#     book.save()
+#     count = Books.objects.all().count()
+#     assert count == 4
+
+#     payload = {'delete': True, 'request': 'delete'}
+                    
+#     response = client.post('/shelves/table_books/', payload)
+#     # assert response.status_code == 200
+#     print(response.content)
+#     # assert response == "a"
+
+#     count = Books.objects.all().count()
+#     assert count == 4
 
 
 # @pytest.fixture
@@ -182,7 +159,7 @@ def test_books_list(auto_login_user):
 #     assert count == 1
 
     
-#     book = Books(reader_id = user.id, author="AA", title="BB")
+#     book = Books(reader_id=user.id, author="AA", title="BB")
 #     book.save()
 #     count = Books.objects.all().count()
 #     assert count == 3
@@ -195,5 +172,3 @@ def test_books_list(auto_login_user):
 #     # assert response.status_code == 302
 #     count = Books.objects.all().count()
 #     assert count == 4
-
-
