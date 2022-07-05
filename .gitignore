@@ -9,3 +9,4 @@ db.sqlite3
 private_conf.py
 .coverage
 htmlcov
+geckodriver.log

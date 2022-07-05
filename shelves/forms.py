@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reader, Books
+from .models import Books
 
 
 class SearchBookForm(forms.ModelForm):
@@ -38,4 +38,3 @@ class BooksAddViewForm(forms.Form):
     tags = forms.CharField(label="tags", max_length=200, required=False,
            widget=forms.TextInput(attrs={"class":"form_field",
            "placeholder": "tags, separated by comma"}))
-
