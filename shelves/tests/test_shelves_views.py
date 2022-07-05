@@ -1,4 +1,3 @@
-from asyncio.log import logger
 from dataclasses import dataclass
 
 from pathlib import WindowsPath
@@ -74,21 +73,29 @@ class TestBooksUrl:
     #     assert Books.objects.all().count() == TestUser.BOOKS_FIRST_READER_HAS
 
     #     response = client.post('/shelves/books_add/', data=data, follow=True)
-    #     # assert list(get_messages(response.wsgi_request)) == []
-    #     # print()
-    #     # for m in list(get_messages(response.wsgi_request)):
-    #     #     print(m)
-    #     #     assert m.tags == "success"
-    #     # print()
-    #     assert Books.objects.all().count() == TestUser.BOOKS_FIRST_READER_HAS
+
+    @pytest.mark.django_db
+    def test_delete_books_by_checkbox(self, 
+        auto_create_user_with_books
+        ):
+        client, user = auto_create_user_with_books
+         
+        assert Books.objects.all().count() == TestUser.BOOKS_FIRST_READER_HAS
+        id = Books.objects.filter(reader_id=user.id).first().id
+        # print(id)
+        data = {'delete': True, str(id): 'on'}
+
+        response = client.post('/shelves/table_books/', data=data, follow=True)
+        assert response.status_code == 200
+        assert Books.objects.filter(reader_id=user.id).count() == TestUser.BOOKS_FIRST_READER_HAS - 1
 
 
     @pytest.mark.django_db
     @pytest.mark.parametrize(
             'author, title, num', [
                 ('both', 'both', 1),
-                ('both', 'both', 1),
-                ('both', 'both', 1),
+                ('bo th', 'both', 1),
+                ('both', 'bo th', 1),
                 ]
             )
     def test_books_add(self, author, title, num, 
