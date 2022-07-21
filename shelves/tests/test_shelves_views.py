@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-
+from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
 from pathlib import WindowsPath
 import pytest
-from django.contrib.messages import get_messages
 
 from shelves.models import Books, Reader
-from users.models import UsersManageModel
 from shelves.functions import FirstReaderCreation
 
 
@@ -19,7 +18,7 @@ class TestUser:
 class TestBooksUrl:
     @pytest.fixture()
     def auto_create_user_with_books(self, db, client):
-        user = UsersManageModel.objects.create(
+        user = User.objects.create(
                             username=TestUser.NAME,
                             password=TestUser.PASSWORD)
         client.force_login(user)
@@ -42,7 +41,7 @@ class TestBooksUrl:
     def test_url_content(self, auto_create_user_with_books):
         client, user = auto_create_user_with_books
         response = client.get('/shelves/books_add/')
-        assert b'add books' in response.content
+        assert b'add a book' in response.content
 
     @pytest.mark.django_db
     def test_books_addition(self, auto_create_user_with_books):
