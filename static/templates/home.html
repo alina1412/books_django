@@ -1,4 +1,5 @@
 {% extends 'templates/base.html' %}
+{% load static %}
 
 {% block suggest-to-log %}
 {% if auth %}
@@ -18,7 +19,25 @@
 
 {% block body %}
 <div class="container">
-        <h3>This it a site to keep tables of books!</h3>
-        <p>Log in to continue! See you!</p>
+        <div class="div_title">
+        <h3>Keep your lists of books and search easy</h3>
+        </div>
+
+        {% if auth == False %}
+        <div class="div_title">
+                <p>Log in to continue! See you!</p>
+                <div>
+                        <form method="post">
+                        {% csrf_token %}
+                        <button type="submit">demo user login</button>
+                        </form>
+                </div>
+        
+                <p>
+                <img src="{% static 'img/example.jpg' %}">
+                </p>
+        </div>
+        {% endif %}
+
 </div>
 {% endblock %}
