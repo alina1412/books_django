@@ -39,21 +39,3 @@ class Books(models.Model):
         item_list = set() | s1 | s2 | s3
         return item_list
 
-
-class FirstReaderCreation:
-    def create_reader(id, username):
-        print('started to create reader...')
-        reader_obj = Reader.objects.create(pk=id, name=username)
-        FirstReaderCreation.create_example_books(reader_obj)
-        print('created reader!')
-
-    def create_example_books(reader_obj):
-        for i in range(2):
-            example_author = f"example_author_{i}"
-            example_title = f"example_title_{i}"
-            example_tags = "tag1, tag2"
-            new_book = Books(author=example_author,
-                             title=example_title, 
-                             tags=example_tags,
-                             reader=reader_obj)
-            new_book.save()

@@ -4,15 +4,16 @@ from pathlib import WindowsPath
 import pytest
 from django.contrib.messages import get_messages
 
-from shelves.models import FirstReaderCreation, Books, Reader
+from shelves.models import Books, Reader
 from users.models import UsersManageModel
+from shelves.functions import FirstReaderCreation
 
 
 # @dataclass
 class TestUser:
     NAME: str = 'user1'
     PASSWORD: str = 'qwerty12542'
-    BOOKS_FIRST_READER_HAS: int = 2
+    BOOKS_FIRST_READER_HAS: int = 8
 
 
 class TestBooksUrl:
