@@ -13,7 +13,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 from .forms import LoginForm, RegisterForm
-from shelves.models import FirstReaderCreation, Reader
+from shelves.models import Reader
+from shelves.functions import FirstReaderCreation
 # from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent

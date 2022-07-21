@@ -10,3 +10,6 @@ private_conf.py
 .coverage
 htmlcov
 geckodriver.log
+static/admin/
+static/rest_framework/
+_test_with_selenium.py
