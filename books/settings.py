@@ -13,7 +13,7 @@ load_dotenv()
 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
-POSTGRE_PASS = os.environ.get("POSTGRE_PASS")
+# POSTGRE_PASS = os.environ.get("POSTGRE_PASS")
 # print(SECRET_KEY)
 
 
@@ -84,19 +84,22 @@ def parse_db_url():
     credentals, address = db_url_parsed.netloc.split("@")
     uname, passwd = credentals.split(":")
     host, port = address.split(":")
-    d = {"dbname": database,
+    d = {"NAME": database,
          "USER": uname, "PASSWORD": passwd,
          "HOST": host, "PORT": port,
-         "ENGINE": 'django.db.backends.postgresql_psycopg2'}
+         "ENGINE": 'django.db.backends.postgresql_psycopg2',
+         'OPTIONS': {'sslmode': 'disable'},
+         }
     return d
 
 
 if DEBUG:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': parse_db_url()
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': BASE_DIR / 'db.sqlite3',
+        # }
     }
 else:
     DATABASES = {
