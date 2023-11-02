@@ -4,6 +4,7 @@ debug.log
 .mypy_cache
 **/bdj_env/
 .env
+.venv/
 db.sqlite3
 **/download/
 private_conf.py
