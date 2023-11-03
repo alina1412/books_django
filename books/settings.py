@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from urllib.parse import urlparse
-import django_heroku
+# import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,10 +19,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("IS_DEBUG") == 'True'
 
-if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1']
-else:
-    ALLOWED_HOSTS = ['books-django-app.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# if DEBUG:
+#     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# else:
+#     ALLOWED_HOSTS = ['books-django-app.herokuapp.com']
 # print(DEBUG)
 
 # Application definition
@@ -95,11 +96,11 @@ def parse_db_url():
 
 if DEBUG:
     DATABASES = {
-        'default': parse_db_url()
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.sqlite3',
-        #     'NAME': BASE_DIR / 'db.sqlite3',
-        # }
+        # 'default': parse_db_url()
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 else:
     DATABASES = {
@@ -191,7 +192,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # print("2", DATABASES)
-if not DEBUG:
-    django_heroku.settings(locals())
+# if not DEBUG:
+#     django_heroku.settings(locals())
 
 # print("3", DATABASES)
